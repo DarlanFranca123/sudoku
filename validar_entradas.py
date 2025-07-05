@@ -14,7 +14,7 @@ def ler_linha(linha_str):
         coordenada_str, valor_str = linha_str.split(':')
         char_coluna, char_linha = coordenada_str.split(',')
     except ValueError:
-        raise ValueError("Formato de entrada inválido. Use 'Número,Letra:Valor' (ex: 3,D:5).")
+        raise ValueError("Formato de entrada inválido.")
     
     indice_linha = int(char_linha.strip()) - 1 
     letra_coluna = char_coluna.strip().upper()
@@ -30,7 +30,7 @@ def ler_linha(linha_str):
     if not (1 <= valor <= 9):
         raise ValueError(f"Valor '{valor}' inválido. Deve ser entre 1 e 9.")
 
-    return (indice_linha, indice_coluna, valor)
+    return (indice_coluna, indice_linha, valor)
 
 
 def ler_pergunta_interativo(linha_entrada):
@@ -43,6 +43,16 @@ def ler_pergunta_interativo(linha_entrada):
         raise ValueError(f"Erro ao ler a pergunta: {error}") # Jogamos o erro de ler_linha para o usuário
     return (coluna_str, linha_str) # Retorna a coluna e a linha 
 
+def ler_remocao_interativo(linha_entrada):
+    if linha_entrada[0] != '!':
+        raise ValueError("A remoção deve começar com '!'")
+    coordenada_str = linha_entrada[1:].replace(" ", "")  # Exclui o ! e os espaços em branco
+    try:
+        coluna_str, linha_str, _ = ler_linha(coordenada_str + ":1")  # Usamos aqui a lógica de ler_linha para validar a entrada
+    except ValueError as error:
+        raise ValueError(f"Erro ao ler a remoção: {error}")  # Jogamos o erro de ler_linha para o usuário
+    return (coluna_str, linha_str)  # Retorna a coluna e a linha
+
 def criar_tabuleiro_inicial(caminho):
     tabuleiro = [[0 for _ in range(9)] for _ in range(9)]
     contador = 0
@@ -54,7 +64,7 @@ def criar_tabuleiro_inicial(caminho):
                     contador += 1
                     try:
                         col_idx, linha_idx, valor = ler_linha(linha_limpa)
-                        tabuleiro[col_idx][linha_idx] = valor
+                        tabuleiro[linha_idx][col_idx] = valor
                     except ValueError as erro:
                         # Captura o erro de ler_linha e adiciona o número da linha para contexto
                         raise ValueError(f"Erro no arquivo na {linha_limpa}: {erro}")
