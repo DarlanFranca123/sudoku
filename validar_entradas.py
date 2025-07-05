@@ -1,31 +1,47 @@
 from testar_tabuleiro import testar_tabuleiro 
 
 # Dicionário de conversão de letras para índices de linha
-LETRA_PARA_LINHA = {
+LETRA_PARA_NUMERO = {
     'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8
 }
 
+NUMERO_PARA_LETRA = {
+    0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G', 7: 'H', 8: 'I'
+}
+
 def ler_linha(linha_str):
-
-    coordenada, valor_str = linha_str.split(':')
-        
-    letra_linha, str_coluna = coordenada.split(',')
+    try:
+        coordenada_str, valor_str = linha_str.split(':')
+        char_coluna, char_linha = coordenada_str.split(',')
+    except ValueError:
+        raise ValueError("Formato de entrada inválido. Use 'Número,Letra:Valor' (ex: 3,D:5).")
     
-    if letra_linha.upper() not in LETRA_PARA_LINHA:
-        raise ValueError(f"Coluna '{letra_linha}' inválida.")
-        
-    valor = int(valor_str.strip())
-    col_idx = int(str_coluna.strip()) - 1
-    linha_idx = LETRA_PARA_LINHA[letra_linha.upper()]
+    indice_linha = int(char_linha.strip()) - 1 
+    letra_coluna = char_coluna.strip().upper()
 
-    # Verificação de limites
-    if not (0 <= linha_idx < 9 and 0 <= col_idx < 9):
-        raise ValueError(f"Posição '{letra_linha},{str_coluna}' está fora dos limites do tabuleiro.")
+    if letra_coluna not in LETRA_PARA_NUMERO:
+        raise ValueError(f"Letra de coluna '{letra_coluna}' inválida. Use de A a I.")
+    indice_coluna = LETRA_PARA_NUMERO[letra_coluna]
+    valor = int(valor_str.strip())  
+    # Tratamento de erros e entradas
+    if not (0 <= indice_linha < 9 and 0 <= indice_coluna < 9):
+        raise ValueError(f"Posição '{letra_coluna},{indice_linha+1}' está fora dos limites.")
     
     if not (1 <= valor <= 9):
-        raise ValueError(f"Valor '{valor}' inválido.")
+        raise ValueError(f"Valor '{valor}' inválido. Deve ser entre 1 e 9.")
 
-    return (col_idx, linha_idx, valor)
+    return (indice_linha, indice_coluna, valor)
+
+
+def ler_pergunta_interativo(linha_entrada):
+    if linha_entrada[0] != '?':
+        raise ValueError("A pergunta deve começar com '?'")
+    coordenada_str = linha_entrada[1:].replace(" ", "") # Exclui o ? e os espaços em branco
+    try:
+        coluna_str, linha_str , _ = ler_linha(coordenada_str + ":1") # Usamos aqui a lógica de ler_linha para validar a entrada, para nao ter que reescrever
+    except ValueError as error:
+        raise ValueError(f"Erro ao ler a pergunta: {error}") # Jogamos o erro de ler_linha para o usuário
+    return (coluna_str, linha_str) # Retorna a coluna e a linha 
 
 def criar_tabuleiro_inicial(caminho):
     tabuleiro = [[0 for _ in range(9)] for _ in range(9)]
@@ -60,6 +76,13 @@ def imprimir_tabuleiro(tabuleiro):
         for numero in linha: 
             print(numero, end=" ")
         print()
+
+def tabuleiro_cheio(tabuleiro):
+    # Verifica se o tabuleiro está cheio (sem zeros)
+    for linha in tabuleiro: 
+        if 0 in linha: 
+            return False
+    return True
 
 def validar_entradas_jogadas(caminho):
     # Lógica a ser implementada

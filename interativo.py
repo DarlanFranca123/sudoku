@@ -1,6 +1,8 @@
 import os
 import copy
-from validar_entradas import criar_tabuleiro_inicial , ler_linha , imprimir_tabuleiro
+from validar_entradas import criar_tabuleiro_inicial , ler_linha , imprimir_tabuleiro , tabuleiro_cheio
+from validar_entradas import ler_pergunta_interativo, NUMERO_PARA_LETRA
+from jogadas_interativo import possibilidades_interativo
 from testar_tabuleiro import testar_tabuleiro
 
 
@@ -20,7 +22,8 @@ def modo_interativo(nome_arquivo):
             print(numero, end=' ')
         print()
     
-    while True:
+    while not tabuleiro_cheio(tabuleiro):  # Continua até que o tabuleiro esteja cheio
+
         linha_str = input("Você está no modo interativo. Entre uma jogada ou operação: \n").strip()
         if not (linha_str[0] == "?" or linha_str[0] == "!"):
             try:    
@@ -53,6 +56,19 @@ def modo_interativo(nome_arquivo):
                 os.system('clear')  # Limpa a tela do terminal
                 imprimir_tabuleiro(tabuleiro) # Imprime o tabuleiro atualizado
 
-            except ValueError as error:
+            except ValueError as error: 
                 print(f"{error} \nTente novamente!")
+        elif linha_str[0] == '?':
+            # Exibe as possibilidades para a posição atual
+            try:
+                col_idx, linha_idx = ler_pergunta_interativo(linha_str)
+                possibilidades = possibilidades_interativo(tabuleiro, col_idx, linha_idx)
+                if not possibilidades: #Tratamos diferentemente o caso de não haver possibilidades
+                    print(f"Não há possibilidades válidas para a posição ({NUMERO_PARA_LETRA[col_idx]}, {linha_idx + 1}). Tem algo errado!")
+                else:
+                    possibilidades = sorted(possibilidades) #Apenas sorta a lista de possibilidades
+                    print(f"As possibilidades válidas para a posição ({NUMERO_PARA_LETRA[col_idx]}, {linha_idx + 1}) são: {possibilidades}")
+            except ValueError as e:
+                print(f"Erro: {e} \nTente novamente!")
+        
 
