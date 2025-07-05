@@ -25,7 +25,7 @@ def ler_linha(linha_str):
     if not (1 <= valor <= 9):
         raise ValueError(f"Valor '{valor}' inválido.")
 
-    return (linha_idx, col_idx, valor)
+    return (col_idx, linha_idx, valor)
 
 def criar_tabuleiro_inicial(caminho):
     tabuleiro = [[0 for _ in range(9)] for _ in range(9)]
@@ -37,7 +37,7 @@ def criar_tabuleiro_inicial(caminho):
                 if linha_limpa:  # Pula linhas completamente vazias
                     contador += 1
                     try:
-                        linha_idx, col_idx, valor = ler_linha(linha_limpa)
+                        col_idx, linha_idx, valor = ler_linha(linha_limpa)
                         tabuleiro[col_idx][linha_idx] = valor
                     except ValueError as erro:
                         # Captura o erro de ler_linha e adiciona o número da linha para contexto
@@ -54,6 +54,12 @@ def criar_tabuleiro_inicial(caminho):
         raise ValueError("Configuração do tabuleiro inválida em relação às regras do Sudoku.")
         
     return tabuleiro
+
+def imprimir_tabuleiro(tabuleiro):
+    for linha in tabuleiro:
+        for numero in linha: 
+            print(numero, end=" ")
+        print()
 
 def validar_entradas_jogadas(caminho):
     # Lógica a ser implementada
