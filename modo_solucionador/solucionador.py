@@ -1,6 +1,6 @@
 import os
 from funcoes_gerais.validar_entradas import criar_tabuleiro_inicial, imprimir_tabuleiro
-from .backtracking import backtracking
+from .backtracking import backtracking , solucoes
 def modo_solucionador(nome_arquivo):
     try:
         tabuleiro = criar_tabuleiro_inicial(nome_arquivo)
@@ -22,11 +22,14 @@ def modo_solucionador(nome_arquivo):
         op = op.strip().upper()
         if op == "S":
             entrada = False
-            if backtracking(tabuleiro): # Procuro uma solução e imprimo, caso exista
-                imprimir_tabuleiro(tabuleiro)
-                print("Esse é a solução do tabuleiro completa!")
+            contador , solucao = solucoes(tabuleiro)
+            if contador > 1: # Procuro uma solução e imprimo, caso exista
+                print("Existe mais de uma solução para essas pistas. É impossível resolver apenas com essas pistas.")
+                print("Essa é uma das possíveis soluçoes para esse Sudoku:")
+                imprimir_tabuleiro(solucao)
             else:   
-                print("Não foi possível encontrar uma solução.")
+                imprimir_tabuleiro(solucao)
+                print(f"Esse é a solução única do Sudoku!")
         elif op == "N":
             print("Terminando modo solucionador")
             entrada = False
