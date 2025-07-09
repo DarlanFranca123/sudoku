@@ -1,4 +1,4 @@
-from testar_tabuleiro import testar_tabuleiro 
+from .testar_tabuleiro import testar_tabuleiro 
 
 # Dicionário de conversão de letras para índices de linha
 LETRA_PARA_NUMERO = {
@@ -82,10 +82,41 @@ def criar_tabuleiro_inicial(caminho):
     return tabuleiro
 
 def imprimir_tabuleiro(tabuleiro):
-    for linha in tabuleiro:
-        for numero in linha: 
-            print(numero, end=" ")
-        print()
+    linhas = []
+
+    # Topo: letra alinhada com o centro de cada célula (o segundo caractere dos === ou ---)
+    topo = "   "  # Começa com 2 espaços para alinhar com ++
+    for i in range(9):
+        topo += " " + NUMERO_PARA_LETRA[i] + "  "  # 4 posições por coluna: espaço + letra + 2 espaços
+        if i in [2, 5]:
+            topo += " "
+    topo = topo.rstrip()
+    linhas.append(topo)
+
+    for i in range(9):
+        if i % 3 == 0 and i != 0:
+            linhas.append(" ++===+===+===++===+===+===++===+===+===++")
+        else:
+            linhas.append(" ++---+---+---++---+---+---++---+---+---++")
+
+        linha = f"{i+1}||"
+
+        for j in range(9):
+            val = tabuleiro[i][j]
+            celula = f" {val} " if val != 0 else "   "
+            linha += celula
+
+            if j == 8:
+                linha += f"||{i+1}"
+            elif (j + 1) % 3 == 0:
+                linha += "||"
+            else:
+                linha += "|"
+        linhas.append(linha)
+    linhas.append(" ++---+---+---++---+---+---++---+---+---++")
+    linhas.append(topo)
+
+    return print("\n".join(linhas))
 
 def tabuleiro_cheio(tabuleiro):
     # Verifica se o tabuleiro está cheio (sem zeros)

@@ -1,4 +1,4 @@
-from validar_entradas import NUMERO_PARA_LETRA
+from funcoes_gerais.validar_entradas import NUMERO_PARA_LETRA
 
 def possibilidades_interativo(tabuleiro, coluna, linha, pistas):    
     # Retorna uma lista de números possíveis para a posição (coluna, linha)

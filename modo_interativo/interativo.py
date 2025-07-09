@@ -1,9 +1,10 @@
 import os
 import copy
-from validar_entradas import criar_tabuleiro_inicial , ler_linha , imprimir_tabuleiro , tabuleiro_cheio
-from validar_entradas import ler_pergunta_interativo, ler_remocao_interativo, NUMERO_PARA_LETRA
-from jogadas_interativo import possibilidades_interativo, remocao_interativo
-from testar_tabuleiro import testar_tabuleiro
+from funcoes_gerais.validar_entradas import criar_tabuleiro_inicial, imprimir_tabuleiro, tabuleiro_cheio
+from funcoes_gerais.validar_entradas import ler_linha, ler_pergunta_interativo, ler_remocao_interativo
+from funcoes_gerais.testar_tabuleiro import testar_tabuleiro
+from .jogadas_interativo import *
+
 
 
 def modo_interativo(nome_arquivo):
@@ -18,10 +19,7 @@ def modo_interativo(nome_arquivo):
     except ValueError as e:
         return f"Erro ao criar o tabuleiro: {e} \nTente novamente!"
     os.system('clear')  # Limpa a tela do terminal
-    for linha in tabuleiro:
-        for numero in linha:
-            print(numero, end=' ')
-        print()
+    imprimir_tabuleiro(tabuleiro)
     
     while not tabuleiro_cheio(tabuleiro):  # Continua até que o tabuleiro esteja cheio
 
