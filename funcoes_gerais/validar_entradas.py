@@ -81,7 +81,10 @@ def criar_tabuleiro_inicial(caminho):
         
     return tabuleiro
 
-def imprimir_tabuleiro(tabuleiro):
+RED = "\033[91m"
+RESET = "\033[0m"
+
+def imprimir_tabuleiro(tabuleiro, pistas):
     linhas = []
 
     # Topo: letra alinhada com o centro de cada célula (o segundo caractere dos === ou ---)
@@ -103,7 +106,13 @@ def imprimir_tabuleiro(tabuleiro):
 
         for j in range(9):
             val = tabuleiro[i][j]
-            celula = f" {val} " if val != 0 else "   "
+            if val != 0:
+                if (i, j) in pistas:
+                    celula = f" {RED}{val}{RESET} "
+                else:
+                    celula = f" {val} "
+            else:
+                celula = "   "
             linha += celula
 
             if j == 8:
@@ -112,11 +121,14 @@ def imprimir_tabuleiro(tabuleiro):
                 linha += "||"
             else:
                 linha += "|"
+
         linhas.append(linha)
+
     linhas.append(" ++---+---+---++---+---+---++---+---+---++")
     linhas.append(topo)
 
     return print("\n".join(linhas))
+
 
 def tabuleiro_cheio(tabuleiro):
     # Verifica se o tabuleiro está cheio (sem zeros)

@@ -16,10 +16,14 @@ def modo_interativo(nome_arquivo):
             for j,valor in enumerate(linha):
                 if valor != 0:
                     pistas.append((i, j))
+        imprimir_tabuleiro(tabuleiro,pistas)
     except ValueError as e:
-        return f"Erro ao criar o tabuleiro: {e} \nTente novamente!"
-    os.system('clear')  # Limpa a tela do terminal
-    imprimir_tabuleiro(tabuleiro)
+        print( f"Erro ao criar o tabuleiro: {e} \nTente novamente!" )
+        return
+    except:
+        print(f"Erro Estranho!")
+        return 
+    
     
     while not tabuleiro_cheio(tabuleiro):  # Continua até que o tabuleiro esteja cheio
 
@@ -56,7 +60,7 @@ def modo_interativo(nome_arquivo):
                     tabuleiro = tabuleiro_temp # Atualiza o tabuleiro original com o temporário se a jogada for válida
                     print(f"Jogada {linha_idx + 1}, {col_idx + 1} = {valor} válida e registrada.")
                 os.system('clear')  # Limpa a tela do terminal
-                imprimir_tabuleiro(tabuleiro) # Imprime o tabuleiro atualizado
+                imprimir_tabuleiro(tabuleiro,pistas) # Imprime o tabuleiro atualizado
 
             except ValueError as error: 
                 print(f"{error} \nTente novamente!")
@@ -80,7 +84,7 @@ def modo_interativo(nome_arquivo):
                 col_idx, linha_idx = ler_remocao_interativo(linha_str)
                 tabuleiro = remocao_interativo(tabuleiro, linha_idx, col_idx, pistas)
                 os.system('clear')  # Limpa a tela do terminal
-                imprimir_tabuleiro(tabuleiro)  # Imprime o tabuleiro atualizado
+                imprimir_tabuleiro(tabuleiro,pistas)  # Imprime o tabuleiro atualizado
             except ValueError as error:
                 print(f"Erro: {error} \nTente novamente!")
     print("Parabéns! O tabuleiro está cheio. Você completou o Sudoku!")
