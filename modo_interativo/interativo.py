@@ -46,6 +46,8 @@ def modo_interativo(nome_arquivo):
                     if operacao == 'S':
                         tabuleiro_temp[linha_idx][col_idx] = valor # Sobrescreve o valor no tabuleiro temporário
                         print(f"O valor {valor} será sobrescrito na posição ({linha_idx + 1}, {col_idx + 1})")
+                    else:
+                        print("O valor não foi alterado.")
 
                 else:
                     tabuleiro_temp[linha_idx][col_idx] = valor # Registra a jogada no tabuleiro temporário
