@@ -20,47 +20,56 @@ def modo_batch(arquivo_pistas, arquivo_jogadas):
     except Exception as e:
         print("Configuração de pistas inválida!")
         return
+    op = input("Deseja prosseguir com o preenchimento usando o segundo arquivo inserido? (S/N?)")
+    op = op.strip().upper()
 
-    try:
-        with open(arquivo_jogadas, 'r') as f:
-            linhas_jogadas = f.readlines()
-    except:
-        print("Erro ao abrir o arquivo de jogadas.")
-        return
-
-    for linha in linhas_jogadas:
-        linha = linha.strip()
-        if not linha:
-            continue
+    if op == "S":
         try:
-            tabuleiro_temp = copy.deepcopy(tabuleiro) # Cria uma cópia do tabuleiro para validação temporária
-            col_idx, linha_idx, valor = ler_linha(linha)
+            with open(arquivo_jogadas, 'r') as f:
+                linhas_jogadas = f.readlines()
+        except:
+            print("Erro ao abrir o arquivo de jogadas.")
+            return
 
-            # Verifica se a jogada está em uma célula com pista
-            if (linha_idx, col_idx) in pistas:
-                raise ValueError(f"Essa jogada é inválida pois é uma pista. ")
+        for linha in linhas_jogadas:
+            linha = linha.strip()
+            if not linha:
+                continue
+            try:
+                tabuleiro_temp = copy.deepcopy(tabuleiro) # Cria uma cópia do tabuleiro para validação temporária
+                col_idx, linha_idx, valor = ler_linha(linha)
 
-            # Verifica se já há um valor e sobrescreve
-            elif tabuleiro[linha_idx][col_idx] != 0:
-                raise ValueError(f"A jogada é inválida pois essa posição já está preenchida. ")
-            
-            # Caso contrário, tenta colocar o valoe nessa posicão
-            else:   
-                tabuleiro_temp[linha_idx][col_idx] = valor # Registra a jogada no tabuleiro temporário
-            
-            if not testar_tabuleiro(tabuleiro_temp): # Verifica se a jogada é válida
+                # Verifica se a jogada está em uma célula com pista
+                if (linha_idx, col_idx) in pistas:
+                    raise ValueError(f"Essa jogada é inválida pois é uma pista. ")
 
-                tabuleiro_temp = copy.deepcopy(tabuleiro) # Restaura o tabuleiro original se a jogada for inválida
-                raise ValueError(f"A jogada é inválida pois viola as regras do Sudoku.")
-    
-            else: 
-                tabuleiro = tabuleiro_temp # Atualiza o tabuleiro original com o temporário se a jogada for válida
+                # Verifica se já há um valor e sobrescreve
+                elif tabuleiro[linha_idx][col_idx] != 0:
+                    raise ValueError(f"A jogada é inválida pois essa posição já está preenchida. ")
+                
+                # Caso contrário, tenta colocar o valoe nessa posicão
+                else:   
+                    tabuleiro_temp[linha_idx][col_idx] = valor # Registra a jogada no tabuleiro temporário
+                
+                if not testar_tabuleiro(tabuleiro_temp): # Verifica se a jogada é válida
 
-        except ValueError as erro:
-            print(f"A jogada {linha} é inválida. {erro}")
+                    tabuleiro_temp = copy.deepcopy(tabuleiro) # Restaura o tabuleiro original se a jogada for inválida
+                    raise ValueError(f"A jogada é inválida pois viola as regras do Sudoku.")
+        
+                else: 
+                    tabuleiro = tabuleiro_temp # Atualiza o tabuleiro original com o temporário se a jogada for válida
 
-    if tabuleiro_cheio(tabuleiro):
-        print("A grade foi preenchida com sucesso!")
+            except ValueError as erro:
+                print(f"A jogada {linha} é inválida. {erro}")
+
+        if tabuleiro_cheio(tabuleiro):
+            imprimir_tabuleiro(tabuleiro,pistas)
+            print("A grade foi preenchida com sucesso!")
+        else:
+            imprimir_tabuleiro(tabuleiro,pistas)
+            print("A grade não foi preenchida!")
     else:
-        print("A grade não foi preenchida!")
+        print("Encerrando...")
+
+    
 

@@ -1,7 +1,7 @@
 import os
 import copy
 from funcoes_gerais.validar_entradas import criar_tabuleiro_inicial, imprimir_tabuleiro, tabuleiro_cheio
-from funcoes_gerais.validar_entradas import ler_linha, ler_pergunta_interativo, ler_remocao_interativo
+from funcoes_gerais.validar_entradas import ler_linha, ler_pergunta_interativo, ler_remocao_interativo, NUMERO_PARA_LETRA
 from funcoes_gerais.testar_tabuleiro import testar_tabuleiro
 from .jogadas_interativo import *
 
@@ -20,9 +20,6 @@ def modo_interativo(nome_arquivo):
     except ValueError as e:
         print( f"Erro ao criar o tabuleiro: {e} \nTente novamente!" )
         return
-    except:
-        print(f"Erro Estranho!")
-        return 
     
     
     while not tabuleiro_cheio(tabuleiro):  # Continua até que o tabuleiro esteja cheio
@@ -37,7 +34,7 @@ def modo_interativo(nome_arquivo):
                 col_idx, linha_idx, valor = ler_linha(linha_str)
 
                 if (linha_idx, col_idx) in pistas:  # Verifica se a posição é uma pista
-                    raise ValueError(f"A posição ({col_idx + 1}, {linha_idx + 1}) é uma pista e não pode ser alterada.")
+                    raise ValueError(f"A posição ({NUMERO_PARA_LETRA[col_idx]}, {linha_idx + 1}) é uma pista e não pode ser alterada.")
 
                 elif tabuleiro[linha_idx][col_idx] != 0:  # Verifica se a posição já está preenchida
                     operacao = input(f"Essa posição já está preenchida com o valor {tabuleiro[linha_idx][col_idx]}.Você deseja sobrescrever? (S/N)") 
@@ -45,7 +42,7 @@ def modo_interativo(nome_arquivo):
 
                     if operacao == 'S':
                         tabuleiro_temp[linha_idx][col_idx] = valor # Sobrescreve o valor no tabuleiro temporário
-                        print(f"O valor {valor} será sobrescrito na posição ({linha_idx + 1}, {col_idx + 1})")
+                        print(f"O valor {valor} será sobrescrito na posição ({NUMERO_PARA_LETRA[col_idx]}, {linha_idx + 1})")
                     else:
                         print("O valor não foi alterado.")
 
