@@ -1,3 +1,9 @@
+'''
+Equipe:
+Darlan Vitor Albuquerque França
+Diego Lugano Oliveira Lima Pereira
+Luis Otavio Almeida Martins
+'''
 from modo_interativo.jogadas_interativo import possibilidades_interativo
 # Aqui, olhando apenas para a linha, coluna e quadrante e reutilizando a logica do modo interativo para
 # calcular as possibilidades de entrada disso
