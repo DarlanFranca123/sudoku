@@ -1,3 +1,9 @@
+'''
+Equipe:
+Darlan Vitor Albuquerque França
+Diego Lugano Oliveira Lima Pereira
+Luis Otavio Almeida Martins
+'''
 from funcoes_gerais.validar_entradas import NUMERO_PARA_LETRA
 
 def possibilidades_interativo(tabuleiro, linha, coluna, pistas):    
@@ -5,7 +11,7 @@ def possibilidades_interativo(tabuleiro, linha, coluna, pistas):
 
     if (linha, coluna) in pistas:
         # A lógica para converter para letra/número precisaria ser ajustada se usada aqui
-        raise ValueError(f"A posição ({NUMERO_PARA_LETRA[coluna]}, {linha}) é uma pista e não pode ser alterada.")
+        raise ValueError(f"A posição ({NUMERO_PARA_LETRA[coluna]}, {linha + 1}) é uma pista e não pode ser alterada.")
 
     numeros_possiveis = list(range(1, 10))  # Números de 1 a 9
 

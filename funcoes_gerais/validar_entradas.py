@@ -1,3 +1,9 @@
+'''
+Equipe:
+Darlan Vitor Albuquerque França
+Diego Lugano Oliveira Lima Pereira
+Luis Otavio Almeida Martins
+'''
 from .testar_tabuleiro import testar_tabuleiro 
 
 # Dicionário de conversão de letras para índices de linha
@@ -31,6 +37,19 @@ def ler_linha(linha_str):
         raise ValueError(f"Valor '{valor}' inválido. Deve ser entre 1 e 9.")
 
     return (indice_coluna, indice_linha, valor)
+
+def ler_linha_batch(linha_str):
+
+    coordenada_str, valor_str = linha_str.split(':')
+    char_coluna, char_linha = coordenada_str.split(',')
+  
+    
+    indice_linha = int(char_linha.strip()) - 1 
+    letra_coluna = char_coluna.strip().upper()
+    valor = int(valor_str.strip())  
+
+
+    return (letra_coluna, indice_linha, valor)
 
 
 def ler_pergunta_interativo(linha_entrada):
@@ -74,6 +93,35 @@ def criar_tabuleiro_inicial(caminho):
     
     if not (1 <= contador <= 81):
         raise ValueError(f"O numero de entradas é inválido")
+
+    # Após preencher, valida as regras do Sudoku para a configuração inicial
+    if not testar_tabuleiro(tabuleiro):
+        raise ValueError("Configuração do tabuleiro inválida em relação às regras do Sudoku.")
+        
+    return tabuleiro
+
+def criar_tabuleiro_inicial_batch(caminho):
+    tabuleiro = [[0 for _ in range(9)] for _ in range(9)]
+    contador = 0
+    try:
+        with open(caminho, 'r') as arquivo:
+            for linha_arquivo in arquivo:
+                linha_limpa = linha_arquivo.strip()
+                if linha_limpa:  # Pula linhas completamente vazias
+                    contador += 1
+                    try:
+                        col_idx, linha_idx, valor = ler_linha(linha_limpa)
+                        if tabuleiro[linha_idx][col_idx] == 0:
+                            tabuleiro[linha_idx][col_idx] = valor
+                        else:
+                            raise ValueError("Repetido")
+                    except ValueError as erro:
+                        # Captura o erro de ler_linha e adiciona o número da linha para contexto
+                        raise ValueError(f"Erro no arquivo na {linha_limpa}: {erro}")
+
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Erro: O arquivo de configuração não foi encontrado.")
+    
 
     # Após preencher, valida as regras do Sudoku para a configuração inicial
     if not testar_tabuleiro(tabuleiro):
@@ -136,7 +184,3 @@ def tabuleiro_cheio(tabuleiro):
         if 0 in linha: 
             return False
     return True
-
-def validar_entradas_jogadas(caminho):
-    # Lógica a ser implementada
-    return 0

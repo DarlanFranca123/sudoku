@@ -1,4 +1,9 @@
-
+'''
+Equipe:
+Darlan Vitor Albuquerque França
+Diego Lugano Oliveira Lima Pereira
+Luis Otavio Almeida Martins
+'''
 def nao_duplicados(lista):
     #Dada uma lista de números, verifica se há números duplicados, ignorando zeros.
     numeros = []

@@ -1,3 +1,9 @@
+'''
+Equipe:
+Darlan Vitor Albuquerque França
+Diego Lugano Oliveira Lima Pereira
+Luis Otavio Almeida Martins
+'''
 import os
 import copy
 from funcoes_gerais.validar_entradas import criar_tabuleiro_inicial, imprimir_tabuleiro, tabuleiro_cheio
