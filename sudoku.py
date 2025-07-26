@@ -25,7 +25,7 @@ def main():
             else:
                 print("Opção inválida. Tente novamente.")
     elif len(sys.argv) == 3:
-        nome_arquivo_pistas= sys.argv[1]
+        nome_arquivo_pistas = sys.argv[1]
         nome_arquivo_jogadas = sys.argv[2]
         modo_batch(nome_arquivo_pistas, nome_arquivo_jogadas)
     else: 

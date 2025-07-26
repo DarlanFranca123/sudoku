@@ -9,7 +9,7 @@ def encontrar_primeira_vazia(tab):
     for i in range(9):
         for j in range(9):
             if tab[i][j]==0:
-                return (i,j)
+                return (i,j)    
     return None
 
 def validar_possivel_numero(tab, numero, posicao):
@@ -34,7 +34,7 @@ def validar_possivel_numero(tab, numero, posicao):
     return True    
 
 def solucoes(tab):
-    # Dado um tabuleiro, retornará o quantas solucoes tem(no máximo 2), qual a primeira e a segunda, podendo, ambas
+    # Dado um tabuleiro, retornará o quantas solucoes tem(no máximo 2), qual a primeira e a segunda, podendo, ambas,
     # serem vazias
     tab_sol_1 = [None] 
     tab_sol_2 = [None]
