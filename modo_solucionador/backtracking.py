@@ -1,9 +1,8 @@
 '''
 Equipe:
-Darlan Vitor Albuquerque França
-Diego Lugano Oliveira Lima Pereira
-Luis Otavio Almeida Martins
-
+Darlan Vitor Albuquerque França: 580497
+Diego Lugano Oliveira Lima Pereira: 580472
+Luis Otavio Almeida Martins: 587770
 '''
 import copy
 def encontrar_primeira_vazia(tab):
