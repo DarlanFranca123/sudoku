@@ -3,6 +3,7 @@ Equipe:
 Darlan Vitor Albuquerque França
 Diego Lugano Oliveira Lima Pereira
 Luis Otavio Almeida Martins
+
 '''
 import copy
 def encontrar_primeira_vazia(tab):

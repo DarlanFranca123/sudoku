@@ -3,6 +3,7 @@ Equipe:
 Darlan Vitor Albuquerque França
 Diego Lugano Oliveira Lima Pereira
 Luis Otavio Almeida Martins
+
 '''
 from .testar_tabuleiro import testar_tabuleiro 
 
